@@ -1,14 +1,12 @@
 package com.packt.cardatabase;
 
-import com.packt.cardatabase.domain.Car;
-import com.packt.cardatabase.domain.CarRepository;
-import com.packt.cardatabase.domain.Owner;
-import com.packt.cardatabase.domain.OwnerRepository;
+import com.packt.cardatabase.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.packt.cardatabase.domain.CarRepository;
 
 import java.util.Arrays;
 
@@ -16,9 +14,10 @@ import java.util.Arrays;
 public class CardatabaseApplication implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(CardatabaseApplication.class);
 
+	// 여기서는 CardatabaseApplication의 필드로 repository 선언
 	private final CarRepository repository;
 	private final OwnerRepository oRepository;
-
+	// 생성자 주입을 통한 CarRepository / OwnerRepository
 	public CardatabaseApplication(CarRepository repository, OwnerRepository oRepository) {
 		this.repository = repository;
 		this.oRepository = oRepository;
@@ -42,6 +41,7 @@ public class CardatabaseApplication implements CommandLineRunner {
 		repository.save(new Car("Toyota", "Prius", "Silver", "KKO-0212", 2022, 39000, owner2));
 		repository.save(new Car("Kia", "Seltos", "Chacoal", "360수5690", 2020, 28000, owner3));
 
+		// 모든 자동차 엔티티를 다 찾아내서 Console창에 로깅
 		for (Car car : repository.findAll()) {
 			logger.info("브랜드: {}, 모델명: {}", car.getBrand(), car.getModel());
 		}
