@@ -1,10 +1,13 @@
 package com.packt.cardatabase.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,9 +15,9 @@ public class Owner {
 
     private String firstname, lastname;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner") // 컬럼명 owner를 참조하여 ownerid에 맞는 자동차 목록을 가져옴
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Car> cars;
-    // 기본 생성자 / ownerid를 제외한 RequriedArgsConstructor / Getter / Setter 생성
 
     public Owner() {
     }

@@ -13,13 +13,8 @@ public class Car {
     private int modelYear, price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="owner")       // 조인할 때 쓸 컬럼인데 컬럼명을 owner로 짓겠다는 의미
+    @JoinColumn(name="owner")
     private Owner owner;
-    // @JoinColumn만 사용하게 될 경우 하이버네이트에서 지맘대로 pk_fk 형태로 임의의 컬럼명을 생성함 - ownerid_owner
-
-    // 기본 생성자 생성하시오.
-    // id 필드를 제외한 나머지 필드를 전부 사용하는 RequiredArgsConstructor를 생성하시오.
-    // Getter / Setter를 생성하시오. -> Lombomk 라이브러리 사용 금지
 
     public Car() {}
 
