@@ -17,11 +17,13 @@ public class CardatabaseApplication implements CommandLineRunner {
 	// 여기서는 CardatabaseApplication의 필드로 repository 선언
 	private final CarRepository repository;
 	private final OwnerRepository oRepository;
+	private final AppUserRepository uRepository;
 	// 생성자 주입을 통한 CarRepository / OwnerRepository
-	public CardatabaseApplication(CarRepository repository, OwnerRepository oRepository) {
+	public CardatabaseApplication(CarRepository repository, OwnerRepository oRepository, AppUserRepository uRepository) {
 		this.repository = repository;
 		this.oRepository = oRepository;
-	}
+        this.uRepository = uRepository;
+    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(CardatabaseApplication.class, args);
@@ -45,5 +47,17 @@ public class CardatabaseApplication implements CommandLineRunner {
 		for (Car car : repository.findAll()) {
 			logger.info("브랜드: {}, 모델명: {}", car.getBrand(), car.getModel());
 		}
+
+		// 사용자명 : user, 비밀번호 : user
+		uRepository.save(new AppUser("user", "$2y$04$1xZnDkya6ARJFjs8AulayO4GBfXsQh7btpytrywksCmHV8Pwc8P.u", "USER"));
+		// 사용자명 : admin, 비밀번호 : admin
+		uRepository.save(new AppUser("admin", "$2y$04$brLHAKurol4oKJ0Ai.wBS.KlUWlNbve7ROZN5T2mT97cWg9ATN6Hu", "ADMIN"));
+
+
+
+
+
+
+
 	}
 }
