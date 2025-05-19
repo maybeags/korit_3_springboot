@@ -21,9 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationFilter authenticationFilter;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationFilter authenticationFilter) {
         this.userDetailsService = userDetailsService;
+        this.authenticationFilter = authenticationFilter;
     }
 
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
