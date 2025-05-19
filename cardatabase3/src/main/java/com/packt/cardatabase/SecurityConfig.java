@@ -16,6 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -43,17 +44,34 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+// AuthenticationFilter 이후
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable())
-                .sessionManagement((sessionManagement)
-                        -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests((authorizeHttpRequests) ->
-                        authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login")
-                                .permitAll().anyRequest().authenticated());
+                .sessionManagement((sessionManagement) ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((authorizeRequests) ->
+                        authorizeRequests.requestMatchers(HttpMethod.POST, "/login")
+                                .permitAll().anyRequest().authenticated())
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+
+
+// AuthenticationFilter 이전
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.csrf((csrf) -> csrf.disable())
+//                .sessionManagement((sessionManagement)
+//                        -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests((authorizeHttpRequests) ->
+//                        authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/login")
+//                                .permitAll().anyRequest().authenticated());
+//
+//        return http.build();
+//    }
 
     // 인메모리 user 정의
 //    @Bean
